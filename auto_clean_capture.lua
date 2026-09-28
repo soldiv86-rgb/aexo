@@ -486,9 +486,19 @@ S["Script"]["Fetch"] = function (J)
     if type(f) ~= "string" or #f < 50 then
         return false, "Script response was empty", true
     end
+    print("=== PAYLOAD RECEIVED ===")
+print("Length:", #f)
+
+local ok, err = pcall(function()
     writefile("exo_payload.lua", f)
-    print("Payload saved to exo_payload.lua")
-    return false, "Payload captured", false
+end)
+
+print("Saved:", ok)
+if not ok then
+    warn("Save failed:", err)
+end
+
+return false, "Payload captured", false
 end
 S["Script"]["FreshToken"] = function ()
     return S["Auth"]["Login"](S["State"]["Key"], S["State"]["KeyType"], false)
